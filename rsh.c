@@ -74,6 +74,7 @@ int main(){
 			}
 
 			if (strcmp(lineTok, "help") == 0){
+				printf("The allowed commands are:\n");
 				printf("1: cp\n");
 				printf("2: touch\n");
 				printf("3: mkdir\n");
