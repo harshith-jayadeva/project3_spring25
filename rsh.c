@@ -112,9 +112,6 @@ int main(){
 			printf("NOT ALLOWED!\n");
 		}
 		free(copyCmd);
-		free(lineTok);
-		free(lineCmd);
-		free(command);
 	}
 	return 0;
 }
