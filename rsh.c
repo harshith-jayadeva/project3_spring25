@@ -55,6 +55,7 @@ int main(){
 	
 		if (isAllowed(lineTok)){
 			pid_t pid;
+			int status;
 			while (lineCmd != NULL && counter < 20){
 					
 				command[counter] = malloc(strlen(lineCmd)+1);
@@ -70,6 +71,7 @@ int main(){
 
 				char* directory = &(line[strlen(line)-1]);
 				chdir(directory);
+				continue;
 			}
 
 			else if (strcmp(lineTok, "exit") == 0){
@@ -90,6 +92,7 @@ int main(){
 				printf("10: cd\n");
 				printf("11: exit\n");
 				printf("12: help\n");
+				continue;
 			}
 
 			else{
@@ -99,6 +102,11 @@ int main(){
 
 				posix_spawnp(&pid, command[0], NULL, NULL, command, environ);
 
+				if (waitpid(pid, &status, 0) == -1) {
+					perror("waitpid failed");
+					exit(EXIT_FAILURE);
+				}
+				continue;
 			}	
 		}
 
