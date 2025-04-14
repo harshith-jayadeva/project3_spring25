@@ -45,7 +45,7 @@ int main(){
 		// And add code to execute cd, exit, help commands
 		// Use the example provided in myspawn.c
 		char* lineTok;
-		char *copyCmd = strdup(line);
+		char *copyCmd = malloc(strlen(line)+1);
 		char *lineCmd = malloc(strlen(line)+1);
 		strcpy(lineCmd, line);
 
@@ -63,7 +63,7 @@ int main(){
 				counter += 1;
 			}
 
-			if(strcmp(command[0], "cd") == 0){
+			if(strcmp(lineTok, "cd") == 0){
 				if(counter > 3){
 					printf("-rsh: cd: too many arguments\n");
 				}
