@@ -46,21 +46,24 @@ int main(){
 		// Use the example provided in myspawn.c
 		char* lineTok;
 		char *copyCmd = strdup(line);
-		lineTok = strtok (copyCmd," ");
+		char *lineCmd = malloc(strlen(line)+1);
+		strcpy(lineCmd, line);
 
+		lineTok = strtok(copyCmd, " ");
+		char* command[20];
+		int counter = 0;
+	
 		if (isAllowed(lineTok)){
-			if (strcmp(lineTok, "cd") == 0){
-				char copyLine[256];
-				int counter = 1;
-				strcpy(copyLine, line);
-				char *lineTok;
-				lineTok = strtok(copyLine," ");
+			pid_t pid;
+			while (lineCmd != NULL && counter < 20){
+					
+				command[counter] = malloc(strlen(lineCmd)+1);
+				strcpy(command[counter], lineCmd);
+				lineCmd = strtok (NULL, " ");
+				counter += 1;
+			}
 
-				while (lineTok != NULL){
-					counter++;
-					lineTok = strtok(NULL, " ");
-				}
-				
+			if(strcmp(command[0], "cd") == 0){
 				if(counter > 3){
 					printf("-rsh: cd: too many arguments\n");
 				}
@@ -69,11 +72,11 @@ int main(){
 				chdir(directory);
 			}
 
-			if (strcmp(lineTok, "exit") == 0){
+			else if (strcmp(lineTok, "exit") == 0){
 				break;
 			}
 
-			if (strcmp(lineTok, "help") == 0){
+			else if (strcmp(lineTok, "help") == 0){
 				printf("The allowed commands are:\n");
 				printf("1: cp\n");
 				printf("2: touch\n");
@@ -88,6 +91,15 @@ int main(){
 				printf("11: exit\n");
 				printf("12: help\n");
 			}
+
+			else{
+				command[0] = malloc(strlen(lineTok)+1);
+				strcpy(command[0], lineTok);
+				command[counter] = NULL;
+
+				posix_spawnp(&pid, command[0], NULL, NULL, command, environ);
+
+			}	
 		}
 
 		else{
@@ -95,7 +107,5 @@ int main(){
 		}
 		free(copyCmd);
 	}
-
-	
 	return 0;
 }
