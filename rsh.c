@@ -45,7 +45,7 @@ int main(){
 		// And add code to execute cd, exit, help commands
 		// Use the example provided in myspawn.c
 		char* lineTok;
-		char *copyCmd = malloc(strlen(line)+1);
+		char *copyCmd = strdup(line);
 		char *lineCmd = malloc(strlen(line)+1);
 		strcpy(lineCmd, line);
 
