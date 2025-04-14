@@ -56,8 +56,7 @@ int main(){
 		if (isAllowed(lineTok)){
 			pid_t pid;
 			int status;
-			while (lineCmd != NULL && counter < 20){
-					
+			while (lineCmd != NULL && counter < 20){	
 				command[counter] = malloc(strlen(lineCmd)+1);
 				strcpy(command[counter], lineCmd);
 				lineCmd = strtok (NULL, " ");
@@ -69,8 +68,7 @@ int main(){
 					printf("-rsh: cd: too many arguments\n");
 				}
 
-				char* directory = &(line[strlen(line)-1]);
-				chdir(directory);
+				chdir(command[1]);
 				continue;
 			}
 
@@ -114,6 +112,9 @@ int main(){
 			printf("NOT ALLOWED!\n");
 		}
 		free(copyCmd);
+		free(lineTok);
+		free(lineCmd);
+		free(command);
 	}
 	return 0;
 }
